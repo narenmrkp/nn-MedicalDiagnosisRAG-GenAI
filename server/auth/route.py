@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from .models import SignupRequest
+from .models import SignupRequest, verify_user
 from .hash_utils import hash_password, verify_password
 from ..config.db import users_collection
 
@@ -10,6 +10,9 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from server.models.db_models import users_collection
 import bcrypt
+
+from fastapi import Depends, HTTPException, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 security = HTTPBasic(auto_error=False)
 
@@ -21,7 +24,7 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"},
         )
 
-    user = users_collection.find_one({"username": credentials.username})
+    user = verify_user(credentials.username, credentials.password)
 
     if not user:
         raise HTTPException(
@@ -30,21 +33,7 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
             headers={"WWW-Authenticate": "Basic"},
         )
 
-    if not bcrypt.checkpw(
-        credentials.password.encode(),
-        user["password"].encode()
-    ):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail={"error": "Invalid username or password"},
-            headers={"WWW-Authenticate": "Basic"},
-        )
-
-    return {
-        "username": user["username"],
-        "role": user["role"]
-    }
-
+    return user
 
 ################################## wrong code ####################
 # security=HTTPBasic()
