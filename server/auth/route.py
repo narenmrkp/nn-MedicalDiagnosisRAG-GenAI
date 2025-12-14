@@ -46,7 +46,7 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
     }
 
 
-################################## wrong code ##########
+################################## wrong code ####################
 # security=HTTPBasic()
 
 # def authenticate(credentials:HTTPBasicCredentials=Depends(security)):
@@ -54,7 +54,7 @@ def authenticate(credentials: HTTPBasicCredentials = Depends(security)):
 #     if not user or not verify_password(credentials.password,user["password"]):
 #         raise HTTPException(status_code=401,detail="Invalid credentials")
 #     return {"username":user["username"],"role":user["role"]}
-#######################################################
+###################################################################
 
 @router.post("/signup")
 def signup(req:SignupRequest):
