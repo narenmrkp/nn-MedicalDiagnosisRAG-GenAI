@@ -89,8 +89,8 @@ This is the **FastAPI-based backend** for the **Medical Diagnosis Application**,
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/snsupratim/MedicalReportDiagnosis.git
-cd MedicalReportDiagnosis
+git clone https://github.com/narenmrkp/nn-MedicalDiagnosisRAG-GenAI.git
+cd nn-MedicalDiagnosisRAG-GenAI
 ```
 
 ### 2️⃣ Create Virtual Environment
@@ -166,6 +166,5 @@ This project is licensed under the **MIT License**.
 
 For any queries, feel free to connect:
 
-- **Author:** \[Supratim Nag]
-- **Email:** [snsupratim@gmail.com](mailto:snsupratim@gmail.com)
-- **YouTube:** [sn dev](https://www.youtube.com/@sn-develpoment)
+- **Author:** \[N Narendra]
+- **Email:** [narenmrkp@gmail.com](mailto:narenmrkp@gmail.com)
