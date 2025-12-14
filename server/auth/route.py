@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from .models import SignupRequest
+from .models import SignupRequest, verify_user
 from .hash_utils import hash_password, verify_password
 from ..config.db import users_collection
 
