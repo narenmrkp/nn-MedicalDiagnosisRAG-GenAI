@@ -57,17 +57,45 @@ def authenticate_user(username, password):
 # 3. Upload Medical Report 
 def upload_report(auth, files):
     try:
-        headers = {'accept': 'application/json'}
-        files_data = [('files', (file.name, file.getvalue(), file.type)) for file in files]
+        files_data = [
+            ("files", (file.name, file.getvalue(), file.type))
+            for file in files
+        ]
+
         response = requests.post(
             f"{API_URL}/reports/upload",
             auth=auth,
             files=files_data,
-            headers=headers
+            timeout=60
         )
-        return response.status_code, response.json()
+
+        # 🔐 SAFE JSON HANDLING (THIS IS THE FIX)
+        try:
+            data = response.json()
+        except ValueError:
+            data = {
+                "detail": "Backend did not return JSON",
+                "raw_response": response.text
+            }
+
+        return response.status_code, data
+
     except requests.exceptions.ConnectionError:
         return 503, {"detail": "Server is unavailable. Please try again later."}
+
+# def upload_report(auth, files):
+#     try:
+#         headers = {'accept': 'application/json'}
+#         files_data = [('files', (file.name, file.getvalue(), file.type)) for file in files]
+#         response = requests.post(
+#             f"{API_URL}/reports/upload",
+#             auth=auth,
+#             files=files_data,
+#             headers=headers
+#         )
+#         return response.status_code, response.json()
+#     except requests.exceptions.ConnectionError:
+#         return 503, {"detail": "Server is unavailable. Please try again later."}
     
 #  4. Diagnosis  Function
 def get_diagnosis(auth, doc_id, question):
